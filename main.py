@@ -17,6 +17,7 @@ except ImportError:
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from contextlib import asynccontextmanager
 
@@ -74,6 +75,24 @@ def get_conn():
         connect_timeout=5,
         sslmode=PGSSLMODE,  # Em Lightsail, use "require"; para Docker local, use "disable"
     )
+
+# CORS: permitir que a landing page (CDN/Object Storage) chame a API via fetch
+_cors_env = os.getenv("CORS_ORIGINS", "*").strip()
+if _cors_env == "*":
+    allowed_origins = ["*"]
+    allow_credentials = False  # obrigatório ser False quando usar '*'
+else:
+    # múltiplas origens separadas por vírgula
+    allowed_origins = [o.strip() for o in _cors_env.split(",") if o.strip()]
+    allow_credentials = True
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=allow_credentials,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class TodoIn(BaseModel):

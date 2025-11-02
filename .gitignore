@@ -1,0 +1,45 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Build & packaging
+build/
+dist/
+*.egg-info/
+
+# Test & coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Type checkers / linters
+.mypy_cache/
+.ruff_cache/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment files
+.env
+.env.*
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Docker compose local overrides (optional)
+docker-compose.override.yml
